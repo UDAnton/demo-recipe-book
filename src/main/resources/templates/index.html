@@ -5,6 +5,18 @@
     <title>Recipe Home</title>
 </head>
 <body>
-
+    <h1>My Recipes</h1>
+<table>
+    <thed>
+        <th>ID</th>
+        <th>Description</th>
+    </thed>
+    <tbody>
+    <tr th:each="recipe : ${recipes}">
+        <td th:text="${recipe.id}">1</td>
+        <td th:text="${recipe.description}">Test</td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

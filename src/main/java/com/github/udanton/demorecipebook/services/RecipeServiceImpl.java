@@ -2,6 +2,7 @@ package com.github.udanton.demorecipebook.services;
 
 import com.github.udanton.demorecipebook.domain.Recipe;
 import com.github.udanton.demorecipebook.repositories.RecipeRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

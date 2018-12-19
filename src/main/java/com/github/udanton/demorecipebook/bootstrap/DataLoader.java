@@ -4,15 +4,18 @@ import com.github.udanton.demorecipebook.domain.*;
 import com.github.udanton.demorecipebook.repositories.CategoryRepository;
 import com.github.udanton.demorecipebook.repositories.RecipeRepository;
 import com.github.udanton.demorecipebook.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Component
 public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -29,8 +32,10 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
 
     @Override
+    @Transactional
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         recipeRepository.saveAll(recipes());
+        log.debug("Loading bootstrap data");
     }
 
     private List<Recipe> recipes() {

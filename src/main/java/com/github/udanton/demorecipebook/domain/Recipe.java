@@ -17,7 +17,7 @@ public class Recipe {
     private Integer prepTime;
     private Integer cookTime;
     private String source;
-    private String servings;
+    private Integer servings;
     private String url;
     @Lob
     private String directions;

@@ -1,5 +1,7 @@
 package com.github.udanton.demorecipebook.services;
 
+import com.github.udanton.demorecipebook.converters.RecipeCommandToRecipe;
+import com.github.udanton.demorecipebook.converters.RecipeToRecipeCommand;
 import com.github.udanton.demorecipebook.domain.Recipe;
 import com.github.udanton.demorecipebook.repositories.RecipeRepository;
 import org.junit.Before;
@@ -19,13 +21,20 @@ public class RecipeServiceImplTest {
 
     private RecipeServiceImpl recipeService;
 
+
+    @Mock
+    RecipeToRecipeCommand recipeToRecipeCommand;
+
+    @Mock
+    RecipeCommandToRecipe recipeCommandToRecipe;
+
     @Mock
     private RecipeRepository recipeRepository;
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        recipeService = new RecipeServiceImpl(recipeRepository);
+        recipeService = new RecipeServiceImpl(recipeRepository, recipeCommandToRecipe, recipeToRecipeCommand);
     }
 
     @Test

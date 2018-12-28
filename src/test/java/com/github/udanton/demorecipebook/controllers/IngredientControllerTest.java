@@ -1,6 +1,8 @@
 package com.github.udanton.demorecipebook.controllers;
 
+import com.github.udanton.demorecipebook.commands.IngredientCommand;
 import com.github.udanton.demorecipebook.commands.RecipeCommand;
+import com.github.udanton.demorecipebook.services.IngredientService;
 import com.github.udanton.demorecipebook.services.RecipeService;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,10 +28,13 @@ public class IngredientControllerTest {
     @Mock
     private RecipeService recipeService;
 
+    @Mock
+    private IngredientService ingredientService;
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        ingredientController = new IngredientController(recipeService);
+        ingredientController = new IngredientController(recipeService, ingredientService);
         mockMvc = MockMvcBuilders.standaloneSetup(ingredientController).build();
     }
 
@@ -45,5 +50,19 @@ public class IngredientControllerTest {
                 .andExpect(model().attributeExists("recipe"));
 
         verify(recipeService, times(1)).findCommandById(anyLong());
+    }
+
+    @Test
+    public void ingredient() throws Exception {
+        IngredientCommand ingredientCommand = new IngredientCommand();
+
+        when(ingredientService.findByRecipeIdAndIngredientId(anyLong(), anyLong())).thenReturn(ingredientCommand);
+
+        mockMvc.perform(get("/recipe/1/ingredient/2/show"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("recipe/ingredient/show"))
+                .andExpect(model().attributeExists("ingredient"));
+
+        verify(ingredientService, times(1)).findByRecipeIdAndIngredientId(anyLong(), anyLong());
     }
 }

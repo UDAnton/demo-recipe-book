@@ -1,6 +1,8 @@
 package com.github.udanton.demorecipebook.controllers;
 
 import com.github.udanton.demorecipebook.commands.IngredientCommand;
+import com.github.udanton.demorecipebook.commands.RecipeCommand;
+import com.github.udanton.demorecipebook.commands.UnitOfMeasureCommand;
 import com.github.udanton.demorecipebook.services.IngredientService;
 import com.github.udanton.demorecipebook.services.RecipeService;
 import com.github.udanton.demorecipebook.services.UnitOfMeasureService;
@@ -42,6 +44,23 @@ public class IngredientController {
         model.addAttribute("ingredient",
                 ingredientService.findByRecipeIdAndIngredientId(Long.valueOf(recipeId), Long.valueOf(id)));
         return "recipe/ingredient/show";
+    }
+
+    @GetMapping
+    @RequestMapping("recipe/{recipeId}/ingredient/new")
+    public String newIngredient(@PathVariable String recipeId, Model model){
+        RecipeCommand recipeCommand = recipeService.findCommandById(Long.valueOf(recipeId));
+
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setRecipeId(Long.valueOf(recipeId));
+
+        model.addAttribute("ingredient", ingredientCommand);
+
+        ingredientCommand.setUnit(new UnitOfMeasureCommand());
+
+        model.addAttribute("units",  unitOfMeasureService.units());
+
+        return "recipe/ingredient/ingredientform";
     }
 
     @GetMapping

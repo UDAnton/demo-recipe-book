@@ -2,11 +2,13 @@ package com.github.udanton.demorecipebook.controllers;
 
 import com.github.udanton.demorecipebook.commands.RecipeCommand;
 import com.github.udanton.demorecipebook.services.RecipeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @Controller
 public class RecipeController {
 
@@ -20,6 +22,7 @@ public class RecipeController {
     @GetMapping
     @RequestMapping("/recipe/{id}/show")
     public String showById(@PathVariable String id, Model model) {
+        log.debug("Show recipe info with id: " + id);
         model.addAttribute("recipe", recipeService.findById(new Long(id)));
         return "recipe/show";
     }
@@ -41,6 +44,7 @@ public class RecipeController {
     @GetMapping
     @RequestMapping("/recipe/{id}/delete")
     public String deleteRecipe(@PathVariable String id) {
+        log.debug("Delete recipe with id: " + id);
         recipeService.deleteById(Long.valueOf(id));
         return "redirect:/";
     }
@@ -48,6 +52,7 @@ public class RecipeController {
     @PostMapping
     @RequestMapping("recipe")
     public String saveOrUpdate(@ModelAttribute RecipeCommand recipeCommand) {
+        log.debug("Create or update recipe");
         RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(recipeCommand);
         return "redirect:/recipe/" + savedRecipeCommand.getId() + "/show";
     }

@@ -84,11 +84,8 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="row">
-                                <div class="col-md-11 ">
+                                <div class="col-md-12 ">
                                     <h1 class="panel-title">Ingredients</h1>
-                                </div>
-                                <div class="col-md-1">
-                                    <a class="btn btn-default" href="#" role="button">Edit</a>
                                 </div>
                             </div>
                         </div>
@@ -100,6 +97,13 @@
                                             th:text="${(ingredient.amount +' ' + ingredient.unit.description +' - ' + ingredient.description)}">1 Teaspoon of Sugar
                                         </li>
                                     </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a class="btn btn-default" href="#" role="button">View</a>
                                 </div>
                             </div>
                         </div>

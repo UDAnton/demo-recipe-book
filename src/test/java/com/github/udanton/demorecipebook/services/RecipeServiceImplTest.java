@@ -4,6 +4,7 @@ import com.github.udanton.demorecipebook.commands.RecipeCommand;
 import com.github.udanton.demorecipebook.converters.RecipeCommandToRecipe;
 import com.github.udanton.demorecipebook.converters.RecipeToRecipeCommand;
 import com.github.udanton.demorecipebook.domain.Recipe;
+import com.github.udanton.demorecipebook.exception.NotFoundException;
 import com.github.udanton.demorecipebook.repositories.RecipeRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +40,7 @@ public class RecipeServiceImplTest {
     }
 
     @Test
-    public void getRecipeByIdTest() throws Exception {
+    public void getRecipeByIdTest() {
         Recipe recipe = new Recipe();
         recipe.setId(1L);
         Optional<Recipe> recipeOptional = Optional.of(recipe);
@@ -54,7 +55,7 @@ public class RecipeServiceImplTest {
     }
 
     @Test
-    public void getRecipeCoomandByIdTest() throws Exception {
+    public void getRecipeCoomandByIdTest() {
         Recipe recipe = new Recipe();
         recipe.setId(1L);
         Optional<Recipe> recipeOptional = Optional.of(recipe);
@@ -71,6 +72,13 @@ public class RecipeServiceImplTest {
         assertNotNull("Null recipe returned", commandById);
         verify(recipeRepository, times(1)).findById(anyLong());
         verify(recipeRepository, never()).findAll();
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void getRecipeCoomandByIdNotFoundTest() {
+        Optional<Recipe> recipeOptional = Optional.empty();
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+        RecipeCommand commandById = recipeService.findCommandById(1L);
     }
 
     @Test

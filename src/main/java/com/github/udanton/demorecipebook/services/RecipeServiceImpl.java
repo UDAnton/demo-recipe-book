@@ -4,6 +4,7 @@ import com.github.udanton.demorecipebook.commands.RecipeCommand;
 import com.github.udanton.demorecipebook.converters.RecipeCommandToRecipe;
 import com.github.udanton.demorecipebook.converters.RecipeToRecipeCommand;
 import com.github.udanton.demorecipebook.domain.Recipe;
+import com.github.udanton.demorecipebook.exception.NotFoundException;
 import com.github.udanton.demorecipebook.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class RecipeServiceImpl implements RecipeService {
         Optional<Recipe> recipeOptional = recipeRepository.findById(id);
 
         if (!recipeOptional.isPresent()) {
-            throw new RuntimeException("Recipe Not Found!");
+            throw new NotFoundException("Recipe Not Found! For ID value " + id);
         }
 
         return recipeOptional.get();

@@ -2,6 +2,7 @@ package com.github.udanton.demorecipebook.controllers;
 
 import com.github.udanton.demorecipebook.commands.RecipeCommand;
 import com.github.udanton.demorecipebook.domain.Recipe;
+import com.github.udanton.demorecipebook.exception.NotFoundException;
 import com.github.udanton.demorecipebook.services.RecipeService;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,6 +52,14 @@ public class RecipeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/show"))
                 .andExpect((model().attributeExists("recipe")));
+    }
+
+    @Test
+    public void testGetRecipeNotFound() throws Exception {
+        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+        mockMvc.perform(get("/recipe/1/show"))
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("404error"));
     }
 
     @Test

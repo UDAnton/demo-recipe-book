@@ -3,6 +3,7 @@ package com.github.udanton.demorecipebook.controllers;
 import com.github.udanton.demorecipebook.commands.RecipeCommand;
 import com.github.udanton.demorecipebook.domain.Recipe;
 import com.github.udanton.demorecipebook.exception.NotFoundException;
+import com.github.udanton.demorecipebook.handlers.ControllerExceptionHandler;
 import com.github.udanton.demorecipebook.services.RecipeService;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +38,9 @@ public class RecipeControllerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         controller = new RecipeController(recipeService);
-        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(controller)
+                .setControllerAdvice(new ControllerExceptionHandler())
+                .build();
     }
 
     @Test

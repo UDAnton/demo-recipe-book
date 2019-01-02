@@ -2,6 +2,7 @@ package com.github.udanton.demorecipebook.controllers;
 
 import com.github.udanton.demorecipebook.commands.IngredientCommand;
 import com.github.udanton.demorecipebook.commands.RecipeCommand;
+import com.github.udanton.demorecipebook.handlers.ControllerExceptionHandler;
 import com.github.udanton.demorecipebook.services.IngredientService;
 import com.github.udanton.demorecipebook.services.RecipeService;
 import com.github.udanton.demorecipebook.services.UnitOfMeasureService;
@@ -44,7 +45,9 @@ public class IngredientControllerTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         ingredientController = new IngredientController(recipeService, ingredientService, unitOfMeasureService);
-        mockMvc = MockMvcBuilders.standaloneSetup(ingredientController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(ingredientController)
+                .setControllerAdvice(new ControllerExceptionHandler())
+                .build();
     }
 
     @Test
@@ -74,6 +77,14 @@ public class IngredientControllerTest {
 
         verify(ingredientService, times(1)).findByRecipeIdAndIngredientId(anyLong(), anyLong());
     }
+
+    @Test
+    public void testGetRecipeNumberFormatException() throws Exception {
+        mockMvc.perform(get("/recipe/sdf/ingredients"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("400error"));
+    }
+
 
     @Test
     public void testNewIngredientForm() throws Exception {

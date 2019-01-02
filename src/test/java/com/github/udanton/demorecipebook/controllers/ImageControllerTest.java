@@ -1,6 +1,7 @@
 package com.github.udanton.demorecipebook.controllers;
 
 import com.github.udanton.demorecipebook.commands.RecipeCommand;
+import com.github.udanton.demorecipebook.handlers.ControllerExceptionHandler;
 import com.github.udanton.demorecipebook.services.ImageService;
 import com.github.udanton.demorecipebook.services.RecipeService;
 import org.junit.Before;
@@ -20,9 +21,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class ImageControllerTest {
     @Mock
@@ -40,7 +39,9 @@ public class ImageControllerTest {
         MockitoAnnotations.initMocks(this);
 
         controller = new ImageController(imageService, recipeService);
-        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(controller)
+                .setControllerAdvice(new ControllerExceptionHandler())
+                .build();
     }
 
     @Test
@@ -58,6 +59,13 @@ public class ImageControllerTest {
 
         verify(recipeService, times(1)).findCommandById(anyLong());
 
+    }
+
+    @Test
+    public void testGetRecipeNumberFormatException() throws Exception {
+        mockMvc.perform(get("/recipe/ewwe/image"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("400error"));
     }
 
     @Test

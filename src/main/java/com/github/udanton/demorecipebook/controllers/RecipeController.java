@@ -52,7 +52,7 @@ public class RecipeController {
     }
 
     @PostMapping("recipe")
-    public String saveOrUpdate(@Valid @ModelAttribute RecipeCommand recipeCommand, BindingResult bindingResult) {
+    public String saveOrUpdate(@Valid @ModelAttribute("recipe") RecipeCommand recipeCommand, BindingResult bindingResult) {
         log.debug("Create or update recipe");
 
         if (bindingResult.hasErrors()) {

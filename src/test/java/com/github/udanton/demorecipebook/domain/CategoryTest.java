@@ -3,6 +3,8 @@ package com.github.udanton.demorecipebook.domain;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.UUID;
+
 import static org.junit.Assert.*;
 
 public class CategoryTest {
@@ -16,7 +18,7 @@ public class CategoryTest {
 
     @Test
     public void getId() {
-        Long idValue = 4L;
+        String idValue = UUID.randomUUID().toString();
         category.setId(idValue);
         assertEquals(idValue, category.getId());
     }

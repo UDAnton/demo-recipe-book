@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -22,7 +23,7 @@ import static org.mockito.Mockito.*;
 public class RecipeServiceImplTest {
 
     private RecipeServiceImpl recipeService;
-
+    private static final String ID_VALUE = UUID.randomUUID().toString();
 
     @Mock
     RecipeToRecipeCommand recipeToRecipeCommand;
@@ -42,43 +43,43 @@ public class RecipeServiceImplTest {
     @Test
     public void getRecipeByIdTest() {
         Recipe recipe = new Recipe();
-        recipe.setId(1L);
+        recipe.setId(ID_VALUE);
         Optional<Recipe> recipeOptional = Optional.of(recipe);
 
-        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+        when(recipeRepository.findById(anyString())).thenReturn(recipeOptional);
 
-        Recipe recipeReturned = recipeService.findById(1L);
+        Recipe recipeReturned = recipeService.findById(ID_VALUE);
 
         assertNotNull("Null recipe returned", recipeReturned);
-        verify(recipeRepository, times(1)).findById(anyLong());
+        verify(recipeRepository, times(1)).findById(anyString());
         verify(recipeRepository, never()).findAll();
     }
 
     @Test
     public void getRecipeCoomandByIdTest() {
         Recipe recipe = new Recipe();
-        recipe.setId(1L);
+        recipe.setId(ID_VALUE);
         Optional<Recipe> recipeOptional = Optional.of(recipe);
 
-        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+        when(recipeRepository.findById(anyString())).thenReturn(recipeOptional);
 
         RecipeCommand recipeCommand = new RecipeCommand();
-        recipeCommand.setId(1L);
+        recipeCommand.setId(ID_VALUE);
 
         when(recipeToRecipeCommand.convert(any())).thenReturn(recipeCommand);
 
-        RecipeCommand commandById = recipeService.findCommandById(1L);
+        RecipeCommand commandById = recipeService.findCommandById(ID_VALUE);
 
         assertNotNull("Null recipe returned", commandById);
-        verify(recipeRepository, times(1)).findById(anyLong());
+        verify(recipeRepository, times(1)).findById(anyString());
         verify(recipeRepository, never()).findAll();
     }
 
     @Test(expected = NotFoundException.class)
     public void getRecipeCoomandByIdNotFoundTest() {
         Optional<Recipe> recipeOptional = Optional.empty();
-        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
-        RecipeCommand commandById = recipeService.findCommandById(1L);
+        when(recipeRepository.findById(anyString())).thenReturn(recipeOptional);
+        RecipeCommand commandById = recipeService.findCommandById(ID_VALUE);
     }
 
     @Test
@@ -99,7 +100,7 @@ public class RecipeServiceImplTest {
 
     @Test
     public void deleteRecipeById() {
-        recipeService.deleteById(1L);
-        verify(recipeRepository, times(1)).deleteById(anyLong());
+        recipeService.deleteById(ID_VALUE);
+        verify(recipeRepository, times(1)).deleteById(anyString());
     }
 }

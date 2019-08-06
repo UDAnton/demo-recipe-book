@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -15,8 +16,8 @@ public class IngredientCommandToIngredientTest {
 
     private static final BigDecimal AMOUNT = new BigDecimal("1");
     private static final String DESCRIPTION = "description";
-    private static final Long ID_VALUE = 1L;
-    private static final Long UNIT_ID = 2L;
+    private static final String ID_VALUE = UUID.randomUUID().toString();
+    private static final String UNIT_ID = UUID.randomUUID().toString();
 
     private IngredientCommandToIngredient ingredientConverter;
 

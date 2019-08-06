@@ -5,11 +5,13 @@ import com.github.udanton.demorecipebook.domain.Category;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.UUID;
+
 import static org.junit.Assert.*;
 
 public class CategoryToCategoryCommandTest {
     private static final String DESCRIPTION = "description";
-    private static final Long ID_VALUE = 1L;
+    private static final String ID_VALUE = UUID.randomUUID().toString();
     private CategoryToCategoryCommand categoryConverter;
 
     @Before

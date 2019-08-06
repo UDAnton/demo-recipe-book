@@ -5,10 +5,12 @@ import com.github.udanton.demorecipebook.domain.Notes;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.UUID;
+
 import static org.junit.Assert.*;
 
 public class NotesCommandToNotesTest {
-    private static final Long ID_VALUE = 1L;
+    private static final String ID_VALUE = UUID.randomUUID().toString();
     private static final String RECIPE_NOTES = "Notes";
     private NotesCommandToNotes notesConverter;
 

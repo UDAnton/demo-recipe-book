@@ -11,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.times;
@@ -39,11 +40,11 @@ public class UnitOfMeasureServiceImplTest {
         //given
         Set<UnitOfMeasure> unitOfMeasures = new HashSet<>();
         UnitOfMeasure unit1 = new UnitOfMeasure();
-        unit1.setId(1L);
+        unit1.setId(UUID.randomUUID().toString());
         unitOfMeasures.add(unit1);
 
         UnitOfMeasure unit2 = new UnitOfMeasure();
-        unit2.setId(2L);
+        unit2.setId(UUID.randomUUID().toString());
         unitOfMeasures.add(unit2);
 
         when(unitOfMeasureRepository.findAll()).thenReturn(unitOfMeasures);

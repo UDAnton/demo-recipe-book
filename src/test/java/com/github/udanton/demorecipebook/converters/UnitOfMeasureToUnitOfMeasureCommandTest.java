@@ -5,12 +5,14 @@ import com.github.udanton.demorecipebook.domain.UnitOfMeasure;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.UUID;
+
 import static org.junit.Assert.*;
 
 public class UnitOfMeasureToUnitOfMeasureCommandTest {
 
     private static final String DESCRIPTION = "description";
-    private static final Long ID_VALUE = 1L;
+    private static final String ID_VALUE = UUID.randomUUID().toString();
 
     private UnitOfMeasureToUnitOfMeasureCommand converter;
 
